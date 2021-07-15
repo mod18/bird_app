@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Scottish Garden Bird Identifier</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" >
+</head>
+<body>
+    <h1>Welcome to the Scottish Garden Bird Identifier App!</h1>
+        <p>
+            This is a toy app to identify birds commonly seen in Scottish gardens.<br>
+            To use the app, simply upload a picture of a bird (or birds!) and click 'Upload'.<br>
+            Note that the app is only programmed to recognize certain bird species, so if you upload a picture of a bird not in the pre-trained model, it won't be recognized!
+        </p>
+    <h2>Upload an image using the form below</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    {% if pred %}
+        <img src="{{ img }}" alt="Your uploaded bird" width="500" height="500">
+        <h2>Prediction: {{ pred }} </h2>
+    {% elif errors %}
+        <h2>{{ errors }}</h2>
+    {% endif %}
+
+</body>
+</html>
