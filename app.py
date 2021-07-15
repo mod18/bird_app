@@ -3,11 +3,11 @@ import base64
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from fastai.learner import load_learner
-from fastai.vision.all import *
-
+from fastai.vision.all import PILImage, Image, io, torch
+from constants import ALLOWED_EXTENSIONS, SPECIES
 
 app = Flask(__name__)
-ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg",]
+
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
@@ -29,7 +29,7 @@ def home():
         else:
             errors = "Unknown file type detected, please try again"    
     
-    return render_template("home.html", errors=errors, img=img_bytes, pred=formatted_pred)
+    return render_template("home.html", list_birds=SPECIES, errors=errors, img=img_bytes, pred=formatted_pred)
 
 def validate_image_file(fname):
     return "." in fname and fname.split(".")[1].lower() in ALLOWED_EXTENSIONS

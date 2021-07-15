@@ -1,30 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <title>Scottish Garden Bird Identifier</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" >
-</head>
-<body>
-    <h1>Welcome to the Scottish Garden Bird Identifier App!</h1>
-        <p>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scottish Bird Classifier</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    </head>
+  <body>
+    <div class="container">
+        <div class="header clearfix">
+          <nav>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation" class="active"><a href="#">Home</a></li>
+              <!--<li role="presentation"><a href="#">About</a></li>
+              <li role="presentation"><a href="#">Contact</a></li>-->
+            </ul>
+          </nav>
+          <h3 class="text-muted">Scottish Bird Classifier</h3>
+        </div>
+  
+        <div class="jumbotron">
+            {% if pred %}
+                <h2>Prediction: {{ pred }} </h2>
+                <img src="{{ img }}" alt="Your uploaded bird" width="500" height="500">
+            {% elif errors %}
+                <h2>{{ errors }}</h2>
+            {% else %}
+                <h1>Upload your bird here!</h1>
+            {% endif %}
+            <br><br>          
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <input type="submit" value="Upload">
+            </form>  
+        </div>
+        
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>Welcome to the Scottish Garden Bird Identifier App!</h4>
+          <p>
             This is a toy app to identify birds commonly seen in Scottish gardens.<br>
             To use the app, simply upload a picture of a bird (or birds!) and click 'Upload'.<br>
             Note that the app is only programmed to recognize certain bird species, so if you upload a picture of a bird not in the pre-trained model, it won't be recognized!
-        </p>
-    <h2>Upload an image using the form below</h2>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
-    {% if pred %}
-        <img src="{{ img }}" alt="Your uploaded bird" width="500" height="500">
-        <h2>Prediction: {{ pred }} </h2>
-    {% elif errors %}
-        <h2>{{ errors }}</h2>
-    {% endif %}
-
-</body>
+          </p>
+          <h4>Recognized Species</h4>
+          <ul>
+              {% for species in list_birds %}
+              <li>{{ species }}</li>
+              {% endfor %}
+          </ul>
+      </div>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+  </body>
 </html>
