@@ -1,5 +1,6 @@
 import pathlib
 import base64
+import sys
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from fastai.learner import load_learner
@@ -8,15 +9,16 @@ from constants import ALLOWED_EXTENSIONS, SPECIES
 
 app = Flask(__name__)
 
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+if sys.platform == "win32":
+    temp = pathlib.PosixPath
+    pathlib.PosixPath = pathlib.WindowsPath
 
 @app.route('/', methods=["GET", "POST"])
 def home():
     formatted_pred, errors, img_bytes = None, None, None
 
     if request.method == "POST":
-        learn = load_learner('export.pkl', cpu=True)           
+        learn = load_learner("bird_model1.pkl", cpu=True)           
         f = request.files["file"]
         fname = secure_filename(f.filename)
         if validate_image_file(fname):
@@ -47,5 +49,3 @@ def img2io(file, fname):
 
 if __name__ == '__main__':
     app.run()
-
-
